@@ -17,19 +17,19 @@ async function request(path, options = {}) {
   return payload;
 }
 
-export async function login(email, password) {
+export async function login(username, password) {
   return request('/auth/login', {
     method: 'POST',
     headers: jsonHeaders(),
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ username, password }),
   });
 }
 
-export async function register(email, password, name) {
+export async function register(username, password) {
   return request('/auth/register', {
     method: 'POST',
     headers: jsonHeaders(),
-    body: JSON.stringify({ email, password, name }),
+    body: JSON.stringify({ username, password, role: 'USER' }),
   });
 }
 

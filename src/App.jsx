@@ -37,7 +37,7 @@ export default function App() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
-  const [form, setForm] = useState({ email: '', password: '', name: '' });
+  const [form, setForm] = useState({ username: '', password: '' });
   const [categoryForm, setCategoryForm] = useState({ name: '', description: '' });
   const [productForm, setProductForm] = useState({ name: '', description: '', price: '', categoryId: '' });
   const [inventoryForms, setInventoryForms] = useState({});
@@ -98,10 +98,10 @@ export default function App() {
     setError('');
     setMessage('');
     try {
-      const response = await login(form.email, form.password);
+      const response = await login(form.username, form.password);
       setToken(response.token);
       setMessage('Logged in successfully.');
-      setForm({ email: '', password: '', name: '' });
+      setForm({ username: '', password: '' });
     } catch (err) {
       setError(apiErrorMessage(err));
     }
@@ -112,9 +112,9 @@ export default function App() {
     setError('');
     setMessage('');
     try {
-      await register(form.email, form.password, form.name);
+      await register(form.username, form.password);
       setMessage('Registration successful. You can now log in.');
-      setForm({ email: '', password: '', name: '' });
+      setForm({ username: '', password: '' });
       setActiveTab('login');
     } catch (err) {
       setError(apiErrorMessage(err));
@@ -208,7 +208,7 @@ export default function App() {
 
       <div className="content">
         <div className="status-message">
-          {me ? <div>Signed in as <strong>{me.sub || me.email}</strong> ({me.roles?.join(', ')})</div> : <div>Not signed in.</div>}
+          {me ? <div>Signed in as <strong>{me.username || me.sub || me.email}</strong> ({me.roles?.join(', ')})</div> : <div>Not signed in.</div>}
           {message && <div>{message}</div>}
           {error && <div className="error">{error}</div>}
         </div>
@@ -218,8 +218,8 @@ export default function App() {
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
               <div className="form-row">
-                <label>Email</label>
-                <input type="email" name="email" value={form.email} onChange={handleInput} required />
+                <label>Username</label>
+                <input type="text" name="username" value={form.username} onChange={handleInput} required />
               </div>
               <div className="form-row">
                 <label>Password</label>
@@ -235,12 +235,8 @@ export default function App() {
             <h2>Register</h2>
             <form onSubmit={handleRegister}>
               <div className="form-row">
-                <label>Name</label>
-                <input type="text" name="name" value={form.name} onChange={handleInput} required />
-              </div>
-              <div className="form-row">
-                <label>Email</label>
-                <input type="email" name="email" value={form.email} onChange={handleInput} required />
+                <label>Username</label>
+                <input type="text" name="username" value={form.username} onChange={handleInput} required />
               </div>
               <div className="form-row">
                 <label>Password</label>
