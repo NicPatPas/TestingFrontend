@@ -166,7 +166,7 @@ export default function App() {
       return;
     }
     try {
-      await inventoryAction(productId, action, quantity, token);
+      await inventoryAction(productId, action, quantity, token, me?.username || 'admin');
       setMessage(`Inventory ${action} completed.`);
       setInventoryForms((prev) => ({ ...prev, [productId]: '' }));
       loadProducts();

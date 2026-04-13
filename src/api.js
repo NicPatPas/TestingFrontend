@@ -10,7 +10,8 @@ function jsonHeaders(token) {
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, options);
   const text = await response.text();
-  const payload = text ? JSON.parse(text) : null;
+  const contentType = response.headers.get('content-type') || '';
+  const payload = text && contentType.includes('application/json') ? JSON.parse(text) : text ? { message: text } : null;
   if (!response.ok) {
     throw new Error(payload?.message || response.statusText || 'Request failed');
   }
@@ -82,11 +83,11 @@ export async function deleteProduct(id, token) {
   });
 }
 
-export async function inventoryAction(productId, action, quantity, token) {
+export async function inventoryAction(productId, action, quantity, token, changedBy) {
   return request(`/admin/inventory/${productId}/${action}`, {
     method: 'PATCH',
     headers: jsonHeaders(token),
-    body: JSON.stringify({ quantity }),
+    body: JSON.stringify({ quantity, changedBy, note: 'web-ui' }),
   });
 }
 
