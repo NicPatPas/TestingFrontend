@@ -51,7 +51,7 @@ export async function createCategory(category, token) {
 }
 
 export async function getProducts(token, query = '') {
-  return request(`/products${query ? `?search=${encodeURIComponent(query)}` : ''}`, {
+  return request(`/products${query ? `?name=${encodeURIComponent(query)}` : ''}`, {
     headers: jsonHeaders(token),
   });
 }
