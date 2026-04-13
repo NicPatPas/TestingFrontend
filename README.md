@@ -1,10 +1,10 @@
 # Smart Stock Frontend
 
-A small React frontend to test the Smart Stock backend with JWT auth, category/product browsing, and admin inventory operations.
+A React frontend for the Smart Stock backend with JWT auth, product browsing, and admin inventory management.
 
 ## Setup
 
-1. Run the backend at `http://localhost:8080`.
+1. Start the backend at `http://localhost:8080`.
 2. Install dependencies:
 
 ```bash
@@ -17,15 +17,24 @@ npm install
 npm run dev
 ```
 
+Open `http://localhost:5173`.
+
+## Test accounts
+
+| Username | Password | Role  |
+|----------|----------|-------|
+| admin    | admin123 | Admin |
+| user     | user123  | User  |
+
 ## Features
 
-- Login and register users
-- Browse categories and products
-- Create categories and products (admin only)
-- Add/remove/correct product stock (admin only)
-- View inventory history for a product
+- Login and register
+- Browse and search products (name, SKU, category, low-stock indicator)
+- View inventory history per product
+- **Admin only:** create categories and products, adjust stock (add/remove/correct), delete products
 
 ## Notes
 
-- Authorization token is stored in localStorage.
-- Admin features are shown automatically when the JWT payload contains `ROLE_ADMIN`.
+- JWT is stored in `localStorage` under the key `smart-stock-token`.
+- Admin tab appears automatically when the token contains `ROLE_ADMIN`.
+- API calls are proxied through Vite (`/api` → `http://localhost:8080`). The `Origin` header is stripped by the proxy to avoid Spring Security's CORS filter blocking non-standard methods.
